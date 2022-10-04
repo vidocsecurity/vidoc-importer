@@ -1,0 +1,257 @@
+import { ApplicationType } from '@boosted-bb/backend-interfaces';
+import {
+    IBountyTargetsYESWEHACKEntry,
+    parseScope,
+    parseProgram,
+    IBountyTargetsYESWEHACKScopeEntry,
+} from '../../src/sources/bountyTargetsYESWEHACK.js';
+
+describe('parseProgram', () => {
+    it('parses program', () => {
+        const program: IBountyTargetsYESWEHACKEntry = {
+            id: 'goo',
+            name: 'test',
+            public: true,
+            min_bounty: 2000,
+            max_bounty: 4000,
+            disabled: false,
+            targets: {
+                in_scope: [
+                    {
+                        type: 'other',
+                        target: 'lrswitch-access-2.kulnet.kuleuven.be',
+                    },
+                    {
+                        type: 'other',
+                        target: '.ad.nl',
+                    },
+                ],
+            },
+        };
+
+        const parsedProgram = parseProgram(program);
+        const expectedProgram = {
+            organization: {
+                id: 'test',
+                bounty: true,
+                name: 'test',
+                programURL: 'https://yeswehack.com/programs/goo',
+            },
+            domains: [
+                {
+                    domainId: 'kuleuven.be',
+                    organizationId: 'test',
+                    forceManualReview: true,
+                },
+                {
+                    domainId: 'ad.nl',
+                    organizationId: 'test',
+                    forceManualReview: true,
+                },
+            ],
+            subdomains: [
+                {
+                    subdomainId: 'lrswitch-access-2.kulnet.kuleuven.be',
+                    root: 'kuleuven.be',
+                    organizationId: 'test',
+                },
+            ],
+            ipRanges: [],
+            endpoints: [],
+        };
+
+        expect(parsedProgram).toMatchObject(expectedProgram);
+    });
+});
+
+describe('parseScope - type OTHER', () => {
+    it('parses endpoints for domains and subdomains', () => {
+        const scopeEntries: IBountyTargetsYESWEHACKScopeEntry[] = [
+            {
+                type: 'other',
+                target: 'lrswitch-access-2.kulnet.kuleuven.be',
+            },
+            {
+                type: 'other',
+                target: '.ad.nl',
+            },
+            {
+                type: 'other',
+                target: 'https://app.acorns.com',
+            },
+            {
+                type: 'other',
+                target: 'some bullshit',
+            },
+        ];
+
+        const result = parseScope('test', scopeEntries);
+
+        const expectedResult = {
+            domains: [
+                {
+                    domainId: 'kuleuven.be',
+                    organizationId: 'test',
+                    forceManualReview: true,
+                },
+                {
+                    domainId: 'ad.nl',
+                    organizationId: 'test',
+                    forceManualReview: true,
+                },
+                {
+                    domainId: 'acorns.com',
+                    organizationId: 'test',
+                    forceManualReview: true,
+                },
+            ],
+            subdomains: [
+                {
+                    subdomainId: 'lrswitch-access-2.kulnet.kuleuven.be',
+                    root: 'kuleuven.be',
+                    organizationId: 'test',
+                },
+                {
+                    subdomainId: 'app.acorns.com',
+                    root: 'acorns.com',
+                    organizationId: 'test',
+                },
+            ],
+            applications: [],
+            ipRanges: [],
+            endpoints: [],
+            sourceCodeRepositories: [],
+        };
+
+        expect(result).toMatchObject(expectedResult);
+    });
+
+    it('parses endpoints for source codes', () => {
+        const scopeEntries: IBountyTargetsYESWEHACKScopeEntry[] = [
+            {
+                type: 'other',
+                target:
+                    'Algorand Golang SDK - https://github.com/algorand/go-algorand-sdk',
+            },
+            {
+                type: 'other',
+                target: 'https://github.com/algorand/java-algorand-sdk',
+            },
+        ];
+
+        const result = parseScope('test', scopeEntries);
+
+        const expectedResult = {
+            domains: [],
+            subdomains: [],
+            applications: [],
+            ipRanges: [],
+            endpoints: [],
+            sourceCodeRepositories: [
+                {
+                    url: 'https://github.com/algorand/go-algorand-sdk',
+                    type: 'github',
+                },
+                {
+                    url: 'https://github.com/algorand/java-algorand-sdk',
+                    type: 'github',
+                },
+            ],
+        };
+
+        expect(result).toMatchObject(expectedResult);
+    });
+});
+
+describe('parseScope - type ios and android', () => {
+    it('parses endpoints for android app', () => {
+        const scopeEntries: IBountyTargetsYESWEHACKScopeEntry[] = [
+            {
+                type: 'mobile-application-android',
+                target: 'Confluence Cloud Android',
+            },
+            {
+                type: 'mobile-application-android',
+                target:
+                    'https://play.google.com/store/apps/details?id=com.atlassian.confluence.server',
+            },
+            {
+                type: 'mobile-application-android',
+                target: 'com.blockfi.android',
+            },
+        ];
+
+        const result = parseScope('test', scopeEntries);
+
+        const expectedResult = {
+            domains: [],
+            subdomains: [],
+            applications: [
+                {
+                    name: 'Confluence Cloud Android',
+                    type: ApplicationType.androidMobile,
+                },
+                {
+                    url:
+                        'https://play.google.com/store/apps/details?id=com.atlassian.confluence.server',
+                    type: ApplicationType.androidMobile,
+                },
+                {
+                    url:
+                        'https://play.google.com/store/apps/details?id=com.blockfi.android',
+                    type: ApplicationType.androidMobile,
+                },
+            ],
+            ipRanges: [],
+            endpoints: [],
+            sourceCodeRepositories: [],
+        };
+
+        expect(result).toMatchObject(expectedResult);
+    });
+
+    it('parses endpoints for ios app', () => {
+        const scopeEntries: IBountyTargetsYESWEHACKScopeEntry[] = [
+            {
+                type: 'mobile-application-ios',
+                target: 'Confluence Cloud Android',
+            },
+            {
+                type: 'mobile-application-ios',
+                target:
+                    'https://apps.apple.com/us/app/confluence-server/id1288365159',
+            },
+            {
+                type: 'mobile-application-ios',
+                target: 'com.blockfi.android',
+            },
+        ];
+
+        const result = parseScope('test', scopeEntries);
+
+        const expectedResult = {
+            domains: [],
+            subdomains: [],
+            applications: [
+                {
+                    name: 'Confluence Cloud Android',
+                    type: ApplicationType.iosMobile,
+                },
+                {
+                    url:
+                        'https://apps.apple.com/us/app/confluence-server/id1288365159',
+                    type: ApplicationType.iosMobile,
+                },
+                {
+                    url: 'https://apps.apple.com/app/com.blockfi.android',
+                    type: ApplicationType.iosMobile,
+                },
+            ],
+            ipRanges: [],
+            endpoints: [],
+            sourceCodeRepositories: [],
+        };
+
+        expect(result).toMatchObject(expectedResult);
+    });
+});

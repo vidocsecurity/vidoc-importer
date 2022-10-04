@@ -1,0 +1,20 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "parser": "typescript"
+      }
+    },
+    {
+      "files": "*.yaml",
+      "options": {
+        "bracketSpacing": false
+      }
+    }
+  ]
+}

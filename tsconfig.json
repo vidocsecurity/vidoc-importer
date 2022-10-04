@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "rootDir": ".",
+        "outDir": "build",
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "allowJs": false,
+        "importHelpers": true,
+        "jsx": "react",
+        "alwaysStrict": true,
+        "sourceMap": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitAny": false,
+        "noImplicitThis": false,
+        "strictNullChecks": true,
+        "lib": ["es2020", "dom"]
+    },
+    "include": ["src/**/*", "__tests__/**/*"],
+    "exclude": ["node_modules"]
+}
