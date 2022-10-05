@@ -21,8 +21,6 @@ jobs:
       - uses: volta-cli/action@v1
       - run: volta pin yarn
       - run: yarn install --pure-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - run: yarn build
       - run: yarn test
         env:
@@ -43,8 +41,6 @@ jobs:
       - uses: volta-cli/action@v1
       - run: volta pin yarn
       - run: yarn install --pure-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - run: yarn build
       - run: yarn lint
         env:
