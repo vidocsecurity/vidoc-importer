@@ -1,7 +1,4 @@
-import {
-    IApplication,
-    ApplicationType,
-} from '../../src/sources/types/index.js';
+import { IApplication, ApplicationType } from './sources/types/index.js';
 import { cleanPath } from './common.js';
 import { getURLsFromText } from './urlScopeParser.js';
 
