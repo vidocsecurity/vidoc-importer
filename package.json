@@ -2,7 +2,7 @@
   "name": "@vidocsecurity/vidoc-importer",
   "license": "MIT",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "bin": {
     "vidoc-importer": "./cli.js"
   },
