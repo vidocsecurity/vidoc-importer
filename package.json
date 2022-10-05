@@ -1,7 +1,8 @@
 {
   "name": "@vidocsecurity/bb-programs-importer",
-  "license": "none",
+  "license": "MIT",
   "type": "module",
+  "version": "0.0.1",
   "scripts": {
     "start": "node build/src/index.js",
     "clean": "rimraf coverage build tmp",
@@ -12,7 +13,7 @@
     "test:watch": "jest --watch",
     "test-module": "node build/src/testModule.js"
   },
-  "main": "lib/index.js",
+  "main": "build/src/index.js",
   "dependencies": {
     "@types/cli-progress": "^3.11.0",
     "@types/configstore": "^6.0.0",
@@ -55,6 +56,5 @@
   },
   "volta": {
     "node": "16.7.0"
-  },
-  "private": true
+  }
 }
