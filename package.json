@@ -3,6 +3,9 @@
   "license": "MIT",
   "type": "module",
   "version": "0.0.2",
+  "bin": {
+    "bb-programs-importer": "./cli.js"
+  },
   "scripts": {
     "start": "node build/src/index.js",
     "clean": "rimraf coverage build tmp",
