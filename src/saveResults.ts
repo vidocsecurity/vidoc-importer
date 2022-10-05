@@ -1,3 +1,5 @@
+import chalk from 'chalk';
+import cliProgress from 'cli-progress';
 import {
     IApplication,
     IEndpoint,
@@ -12,8 +14,6 @@ import { ClientAPIOptions } from './client/client.js';
 import { createDirectory, fetchAllDirectories } from './client/directories.js';
 import { addDomainToDirectory } from './client/domains.js';
 import { processInChunks } from './common.js';
-import chalk from 'chalk';
-import cliProgress from 'cli-progress';
 
 export interface ParsedProgram {
     organization: IDirectory;
@@ -57,13 +57,11 @@ const saveResultsAndMakeSureTheyAreUnique = async (
                 organization: { id, name, programURL, platform },
                 domains,
             } = program;
-            let directory = directories.find((directory) => {
-                return (
+            let directory = directories.find((directory) => (
                     directory.tags.includes(id) ||
                     directory.tags.includes(programURL) ||
                     directory.tags.includes(name)
-                );
-            });
+                ));
 
             if (!directory) {
                 try {

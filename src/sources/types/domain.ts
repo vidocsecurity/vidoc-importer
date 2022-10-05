@@ -1,3 +1,8 @@
+export enum DomainReviewStatus {
+    approved = 'approved',
+    rejected = 'rejected',
+}
+
 export interface IDomain {
     domainId: string; // id is the name of the domain
     organizationId: string;
@@ -8,9 +13,4 @@ export interface IDomain {
     description?: string;
     forceManualReview?: boolean; // if the domain is added from untrusty source - f.e. bug bounty program description
     reviewStatus?: DomainReviewStatus;
-}
-
-export enum DomainReviewStatus {
-    approved = 'approved',
-    rejected = 'rejected',
 }

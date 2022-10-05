@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 
+import fetch from 'node-fetch';
 import {
     IApplication,
     IEndpoint,
@@ -10,7 +11,6 @@ import {
     IDirectory,
     IDomain,
 } from './types/index.js';
-import fetch from 'node-fetch';
 import {
     deduplicateApplications,
     deduplicateDomains,

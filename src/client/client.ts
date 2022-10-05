@@ -7,16 +7,14 @@ export interface ClientAPIOptions {
     apiHost: string;
 }
 
-const getHeaders = async (options: ClientAPIOptions) => {
-    return {
-        'client-token': options.token,
-    };
-};
+const getHeaders = async (options: ClientAPIOptions) => ({
+    'client-token': options.token,
+});
 
 interface ClientOptions {
     method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
     path: string;
-    body?: {};
+    body?: object;
 }
 
 const httpsAgent = new https.Agent({

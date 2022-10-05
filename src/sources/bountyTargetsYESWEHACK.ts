@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 
+import fetch from 'node-fetch';
 import {
     IApplication,
     IEndpoint,
@@ -10,7 +11,6 @@ import {
     IDirectory,
     IDomain,
 } from './types/index.js';
-import fetch from 'node-fetch';
 import {
     deduplicateDomains,
     deduplicateSubdomains,
@@ -20,7 +20,7 @@ import {
 } from '../common.js';
 import { parseEndpointOrDescriptionForMobileApplications } from '../mobileApplicationParser.js';
 import { getURLsFromText, parseURLsForScopeItems } from '../urlScopeParser.js';
-import { ParsedProgram } from './../saveResults.js';
+import { ParsedProgram } from "../saveResults.js";
 
 interface IBountyTargetsYESWEHACKScopeEntry {
     target: string;

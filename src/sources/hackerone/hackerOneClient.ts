@@ -44,7 +44,7 @@ const getAllTeams = async (sessionCookie: string) => {
             Cookie: `__Host-session=${sessionCookie};`,
         },
     });
-    let handles: string[] = [];
+    const handles: string[] = [];
     /* eslint-disable no-await-in-loop */
     while (true) {
         if (nextCursor.length > 0) {

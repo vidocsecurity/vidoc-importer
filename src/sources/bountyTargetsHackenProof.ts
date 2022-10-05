@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 import {
     IApplication,
     IEndpoint,
@@ -9,7 +10,6 @@ import {
     IDomain,
     ApplicationType,
 } from './types/index.js';
-import fetch from 'node-fetch';
 import {
     cleanPath,
     deduplicateApplications,
@@ -21,7 +21,7 @@ import {
 } from '../common.js';
 import { parseEndpointOrDescriptionForMobileApplications } from '../mobileApplicationParser.js';
 import { getURLsFromText, parseURLsForScopeItems } from '../urlScopeParser.js';
-import { ParsedProgram } from './../saveResults.js';
+import { ParsedProgram } from "../saveResults.js";
 
 enum IBountyTargetsHackenProofScopeType {
     Web = 'Web',

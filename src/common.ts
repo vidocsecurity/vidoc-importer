@@ -1,3 +1,4 @@
+import { parseDomain, ParseResultType } from 'parse-domain';
 import {
     IApplication,
     IIPRange,
@@ -5,9 +6,8 @@ import {
     ISourceCodeRepository,
     ISubdomain,
     SourceCodeRepositoryType,
-    IDomain
+    IDomain,
 } from './sources/types/index.js';
-import { parseDomain, ParseResultType } from 'parse-domain';
 import { getURLsFromText } from './urlScopeParser.js';
 
 const SKIP_HOSTNAMES_REGEXES = [
@@ -446,8 +446,8 @@ const processInChunks = async <T>(
     process: (slice: T[], progress: number) => Promise<void>,
 ): Promise<void> => {
     const arrayCopy = [...array];
-    return new Promise(async (resolve, reject) => {
-        let startingSize = arrayCopy.length;
+    return new Promise((resolve, reject) => {
+        const startingSize = arrayCopy.length;
 
         const processChunk = async () => {
             const chunk = arrayCopy.splice(0, chunkSize);
@@ -457,7 +457,7 @@ const processInChunks = async <T>(
                 return;
             }
 
-            let progress = Math.round(
+            const progress = Math.round(
                 ((startingSize - arrayCopy.length) / startingSize) * 100,
             );
 
@@ -472,7 +472,7 @@ const processInChunks = async <T>(
             });
         };
 
-        await processChunk();
+        processChunk();
     });
 };
 

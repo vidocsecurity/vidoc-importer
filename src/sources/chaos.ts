@@ -1,10 +1,10 @@
-import { ISubdomain } from '../../src/sources/types/index.js';
 import fetch from 'node-fetch';
+import { ISubdomain } from '../../src/sources/types/index.js';
 import {
     nameToOrganizationID,
     parseHostnameToDomainAndSubdomain,
 } from '../common.js';
-import { ParsedProgram } from './../saveResults.js';
+import { ParsedProgram } from "../saveResults.js";
 import { IDirectory } from './types/directory.js';
 import { IDomain } from './types/domain.js';
 
