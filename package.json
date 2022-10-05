@@ -1,10 +1,10 @@
 {
-  "name": "@vidocsecurity/bb-programs-importer",
+  "name": "@vidocsecurity/vidoc-importer",
   "license": "MIT",
   "type": "module",
   "version": "0.0.4",
   "bin": {
-    "bb-programs-importer": "./cli.js"
+    "vidoc-importer": "./cli.js"
   },
   "scripts": {
     "start": "node build/src/index.js",
