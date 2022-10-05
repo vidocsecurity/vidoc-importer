@@ -3,19 +3,20 @@ import {
     IEndpoint,
     IDomain,
     IIPRange,
-    IOrganization,
     IParameter,
     ISourceCodeRepository,
     ISubdomain,
-} from '@boosted-bb/backend-interfaces';
+    IDirectory,
+} from './sources/types';
 import { ClientAPIOptions } from './client/client.js';
 import { createDirectory, fetchAllDirectories } from './client/directories.js';
 import { addDomainToDirectory } from './client/domains.js';
 import { processInChunks } from './common.js';
 import chalk from 'chalk';
+import cliProgress from 'cli-progress';
 
 export interface ParsedProgram {
-    organization: IOrganization;
+    organization: IDirectory;
     ipRanges: IIPRange[];
     subdomains: ISubdomain[];
     domains: IDomain[];
@@ -27,20 +28,33 @@ export interface ParsedProgram {
 
 const saveResultsAndMakeSureTheyAreUnique = async (
     clientAPIOptions: ClientAPIOptions,
-    platform: string,
     projectId: string,
     programs: ParsedProgram[],
 ) => {
+    console.log(chalk.blue(`Saving results for ${programs.length} programs`));
+    const progressBar = new cliProgress.SingleBar(
+        {},
+        cliProgress.Presets.shades_classic,
+    );
+
     const directories = await fetchAllDirectories(clientAPIOptions, projectId);
+
+    let numberOfAllDomains = 0;
+
+    programs.forEach((program) => {
+        numberOfAllDomains += program.domains.length;
+    });
+
+    progressBar.start(numberOfAllDomains, 0);
 
     // we need to make sure that the results are unique
     // to do that we check if organization id or programURL is in the directory tags
     // if it is, we don't create another directory, we add all the data to it
 
-    await processInChunks(programs, 10, async (programsChunk) => {
+    await processInChunks(programs, 5, async (programsChunk) => {
         const promises = programsChunk.map(async (program) => {
             const {
-                organization: { id, name, programURL },
+                organization: { id, name, programURL, platform },
                 domains,
             } = program;
             let directory = directories.find((directory) => {
@@ -58,7 +72,10 @@ const saveResultsAndMakeSureTheyAreUnique = async (
                         clientAPIOptions,
                         projectId,
                         {
-                            name: name.trim().slice(0, 100), // name can't be longer than 100 characters
+                            name: name
+                                .replace(/[^a-zA-Z0-9_-\s]+/g, '')
+                                .trim()
+                                .slice(0, 100), // name can't be longer than 100 characters
                             bounty: false,
                             tags: [id, programURL, name],
                             description: `Bug bounty program imported from ${platform}. Program URL is: ${programURL}`,
@@ -73,32 +90,43 @@ const saveResultsAndMakeSureTheyAreUnique = async (
             }
 
             if (directory === undefined) {
-                throw new Error(`Directory not created for program "${name}"`);
+                console.log(
+                    chalk.redBright(
+                        `Directory not created for program "${name}"`,
+                    ),
+                );
+                return;
             }
 
             const { id: directoryId } = directory;
 
-            // add all the data to the directory
-            const domainPromises = domains.map(async (domain) => {
-                const { domainId } = domain;
-                await addDomainToDirectory(
-                    clientAPIOptions,
-                    projectId,
-                    directoryId,
-                    {
-                        name: domainId,
-                        forceManualReview: true, // always force manual review since it's being imported by tool
-                    },
-                );
+            await processInChunks(domains, 2, async (domainsChunk) => {
+                // add all the data to the directory
+                const domainPromises = domainsChunk.map(async (domain) => {
+                    const { domainId } = domain;
+                    await addDomainToDirectory(
+                        clientAPIOptions,
+                        projectId,
+                        directoryId,
+                        {
+                            name: domainId,
+                            forceManualReview: true, // always force manual review since it's being imported by tool
+                        },
+                    );
+
+                    progressBar.increment();
+                });
+
+                await Promise.all(domainPromises);
             });
 
             // TODO add other data to directory
-
-            await Promise.all(domainPromises);
         });
 
         await Promise.all(promises);
     });
+
+    progressBar.stop();
 };
 
 export { saveResultsAndMakeSureTheyAreUnique };

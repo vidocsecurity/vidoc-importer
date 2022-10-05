@@ -1,12 +1,4 @@
 import {
-    IDomain,
-    IIPRange,
-    IPRangeType,
-    ISourceCodeRepository,
-    ISubdomain,
-    SourceCodeRepositoryType,
-} from '@boosted-bb/backend-interfaces';
-import {
     shouldSkipSubdomain,
     shouldSkipDomain,
     prepareTargetNameToBeParsedAsURL,
@@ -20,6 +12,13 @@ import {
     deduplicateDomains,
     deduplicateSubdomains,
 } from '../src/common.js';
+import { IDomain } from '../src/sources/types/domain.js';
+import { IIPRange, IPRangeType } from '../src/sources/types/ipRanges.js';
+import {
+    ISourceCodeRepository,
+    SourceCodeRepositoryType,
+} from '../src/sources/types/sourceCode.js';
+import { ISubdomain } from '../src/sources/types/subdomain.js';
 
 describe('common - shouldSkipSubdomain', () => {
     it("shouldn't skip subdomain 'foo.com'", () => {

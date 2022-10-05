@@ -1,14 +1,14 @@
 import {
-    ApplicationType,
     IApplication,
     IEndpoint,
-    IDomain,
     IIPRange,
-    IOrganization,
     IParameter,
     ISourceCodeRepository,
     ISubdomain,
-} from '@boosted-bb/backend-interfaces';
+    IDirectory,
+    IDomain,
+    ApplicationType,
+} from '../types/index.js';
 import {
     cleanPath,
     deduplicateDomains,
@@ -301,11 +301,12 @@ const parseProgram = (program: IHackerOneProgram): ParsedProgram => {
         endpoints: endpointsFromOutOfScope,
     } = parseOutOfScope(organizationId, targets.out_of_scope);
 
-    const organization: IOrganization = {
+    const organization: IDirectory = {
         id: organizationId,
         bounty: true,
         name,
         programURL: url,
+        platform: 'Hackerone',
     };
 
     return {

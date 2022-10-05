@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
 
 import {
-    IDomain,
-    IOrganization,
-    ISubdomain,
-    IIPRange,
-    IEndpoint,
-    IParameter,
     IApplication,
+    IEndpoint,
+    IIPRange,
+    IParameter,
     ISourceCodeRepository,
-} from '@boosted-bb/backend-interfaces';
+    ISubdomain,
+    IDirectory,
+    IDomain,
+} from './types/index.js';
 import fetch from 'node-fetch';
 import {
     deduplicateDomains,
@@ -144,11 +144,12 @@ const parseProgram = (program: IBountyTargetsYESWEHACKEntry): ParsedProgram => {
 
     const url = `https://yeswehack.com/programs/${id}`;
 
-    const organization: IOrganization = {
+    const organization: IDirectory = {
         id: organizationId,
         bounty: true,
         name,
         programURL: url,
+        platform: 'YESWEHACK Public',
     };
 
     return {

@@ -1,5 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 import retry from 'async-retry';
+import https from 'https';
 
 export interface ClientAPIOptions {
     token: string;
@@ -18,6 +19,14 @@ interface ClientOptions {
     body?: {};
 }
 
+const httpsAgent = new https.Agent({
+    keepAlive: true,
+});
+
+const httpAgent = new https.Agent({
+    keepAlive: true,
+});
+
 const clientWithRetry = async <T>(
     clientOptions: ClientAPIOptions,
     options: ClientOptions,
@@ -35,6 +44,7 @@ const clientWithRetry = async <T>(
                 const resp = await fetch(url, {
                     method,
                     headers,
+                    agent: url.startsWith('https') ? httpsAgent : httpAgent,
                 });
 
                 if (resp.status === 520) {
@@ -44,7 +54,7 @@ const clientWithRetry = async <T>(
                 return resp;
             },
             {
-                retries: 2,
+                retries: 5,
             },
         );
     } else {
@@ -68,7 +78,7 @@ const clientWithRetry = async <T>(
                 return resp;
             },
             {
-                retries: 2,
+                retries: 5,
             },
         );
     }

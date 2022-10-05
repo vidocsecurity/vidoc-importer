@@ -1,14 +1,12 @@
-import {
-    IOrganization,
-    IDomain,
-    ISubdomain,
-} from '@boosted-bb/backend-interfaces';
+import { ISubdomain } from '@boosted-bb/backend-interfaces';
 import fetch from 'node-fetch';
 import {
     nameToOrganizationID,
     parseHostnameToDomainAndSubdomain,
 } from '../common.js';
 import { ParsedProgram } from './../saveResults.js';
+import { IDirectory } from './types/directory.js';
+import { IDomain } from './types/domain.js';
 
 interface IChaosBugBountyEntry {
     name: string;
@@ -31,11 +29,12 @@ const parseProgram = (program: IChaosBugBountyEntry): ParsedProgram => {
         hostnames = [hostnames];
     }
 
-    const organization: IOrganization = {
+    const organization: IDirectory = {
         id: organizationId,
         bounty: true,
         name,
         programURL: url,
+        platform: '(unknown)',
     };
 
     const domains: IDomain[] = [];

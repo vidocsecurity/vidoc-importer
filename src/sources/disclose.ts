@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 
-import { IOrganization } from '@boosted-bb/backend-interfaces';
 import fetch from 'node-fetch';
 import { nameToOrganizationID } from '../common.js';
+import { IDirectory } from './types/directory.js';
 
 interface IDiscloseBugBountyEntry {
     program_name: string;
@@ -16,11 +16,12 @@ const parseProgram = (program: IDiscloseBugBountyEntry) => {
     const { program_name, policy_url } = program;
     const organizationId = nameToOrganizationID(program_name);
 
-    const organization: IOrganization = {
+    const organization: IDirectory = {
         id: organizationId,
         bounty: true,
         name: program_name,
         programURL: policy_url,
+        platform: '(unknown)',
     };
 
     return {

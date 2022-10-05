@@ -7,7 +7,14 @@ import { fetchProfile } from './client/profile.js';
 import ora from 'ora';
 import { ClientAPIOptions } from './client/client.js';
 import { fetchBountyTargetsHackerOneProgramList } from './sources/hackerone/bountyTargetsHackerOne.js';
-import { saveResultsAndMakeSureTheyAreUnique } from './saveResults.js';
+import {
+    ParsedProgram,
+    saveResultsAndMakeSureTheyAreUnique,
+} from './saveResults.js';
+import { fetchBountyTargetsBugcrowdProgramList } from './sources/bountyTargetsBugcrowd.js';
+import { fetchBountyTargetsHackenProofProgramList } from './sources/bountyTargetsHackenProof.js';
+import { fetchBountyTargetsYESWEHACKProgramList } from './sources/bountyTargetsYESWEHACK.js';
+import { fetchBountyTargetsIntigritiProgramList } from './sources/intigriti/bountyTargetsIntigriti.js';
 
 const program = new Command();
 const config = new Configstore('@vidocsecurity/vidoc-bb-importer', {
@@ -32,13 +39,14 @@ _   _ _     _             ______                              _
     );
     console.log(
         chalk.yellow(
-            "If something did not work as expected, don't hesitate to open an issue on https://github.com/vidocsecurity/vidoc-bb-importer\n\n",
+            "If something did not work as expected, don't hesitate to open an issue on https://github.com/vidocsecurity/vidoc-bb-importer",
         ),
     );
 
     if (config.get('token') && config.get('user')) {
         console.log(chalk.green(`You are logged in as ${config.get('user')}`));
     }
+    console.log('\n\n');
 
     program.version('0.0.1');
 
@@ -55,52 +63,61 @@ _   _ _     _             ______                              _
         )
         .action(handleLogin);
 
-    program
-        .command('import-hackerone-private')
+    const importCommand = program
+        .command('import')
+        .addHelpText(
+            'before',
+            chalk.yellow('Import all the programs from the sources you choose'),
+        );
+
+    importCommand
+        .command('hackerone-private')
         .requiredOption('--session-cookie <string>', 'Hackerone session cookie')
         .action(handleHackeronePrivateProgramsImport);
 
-    program
-        .command('import-hackerone-public')
-        .action(handleHackeronePublicProgramsImport);
+    importCommand.command('all-public').action(() => handleAllPublicImport());
 
     program.parse(process.argv);
+
+    return 0;
 };
 
-const handleHackeronePublicProgramsImport = async () => {
+const handleAllPublicImport = async () => {
     if (!config.get('token') || !config.get('user')) {
         console.log(chalk.red('You need to login first'));
         return;
     }
 
-    console.log('Importing public programs from Hackerone...');
-    const spinner = ora('Fetching programs').start();
-
-    const parsedPrograms = await fetchBountyTargetsHackerOneProgramList();
-    spinner.stop();
-
-    console.log(
-        `Found ${chalk.green(
-            parsedPrograms.length,
-        )} PUBLIC programs on Hackerone`,
-    );
-
-    const spinner2 = ora('Saving programs').start();
-
     if (!config.get('project-id')) {
-        spinner2.stop();
         console.log(`You need to login again. Run 'vidoc login'`);
         return;
     }
 
+    console.log(
+        `Importing public programs from ALL platforms: Hackerone, Bugcrowd, Intigriti, HackenProof, YESWEHACK.`,
+    );
+
+    const spinner = ora('Fetching programs').start();
+
+    const parsedPrograms: ParsedProgram[] = [];
+
+    parsedPrograms.push(...(await fetchBountyTargetsBugcrowdProgramList()));
+    parsedPrograms.push(...(await fetchBountyTargetsHackerOneProgramList()));
+    parsedPrograms.push(...(await fetchBountyTargetsHackenProofProgramList()));
+    parsedPrograms.push(...(await fetchBountyTargetsYESWEHACKProgramList()));
+    parsedPrograms.push(...(await fetchBountyTargetsIntigritiProgramList()));
+
+    spinner.stop();
+
+    console.log(
+        `Found ${chalk.green(parsedPrograms.length)} PUBLIC programs to import`,
+    );
+
     await saveResultsAndMakeSureTheyAreUnique(
         getAPIConfig(),
-        'Hackerone',
         config.get('project-id'),
         parsedPrograms,
     );
-
-    spinner2.stop();
 };
 
 type HackeronePrivateProgramsImportOptions = {

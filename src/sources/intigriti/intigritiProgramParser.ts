@@ -1,13 +1,13 @@
 import {
     IApplication,
     IEndpoint,
-    IDomain,
     IIPRange,
-    IOrganization,
     IParameter,
     ISourceCodeRepository,
     ISubdomain,
-} from '@boosted-bb/backend-interfaces';
+    IDirectory,
+    IDomain,
+} from '../types/index.js';
 import {
     deduplicateApplications,
     deduplicateDomains,
@@ -173,11 +173,12 @@ const parseProgram = (program: IIntigritiProgram): ParsedProgram => {
         parameters,
     } = parseScope(organizationId, targets.in_scope);
 
-    const organization: IOrganization = {
+    const organization: IDirectory = {
         id: organizationId,
         bounty: true,
         name,
         programURL: url,
+        platform: 'Intigriti'
     };
 
     return {

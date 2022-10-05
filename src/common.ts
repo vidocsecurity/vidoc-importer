@@ -1,12 +1,12 @@
 import {
     IApplication,
-    IDomain,
     IIPRange,
     IPRangeType,
     ISourceCodeRepository,
     ISubdomain,
     SourceCodeRepositoryType,
-} from '@boosted-bb/backend-interfaces';
+    IDomain
+} from './sources/types';
 import { parseDomain, ParseResultType } from 'parse-domain';
 import { getURLsFromText } from './urlScopeParser.js';
 

@@ -2,11 +2,11 @@ import {
     ApplicationType,
     IApplication,
     IEndpoint,
-    IDomain,
     IIPRange,
     IParameter,
     ISubdomain,
-} from '@boosted-bb/backend-interfaces';
+    IDomain,
+} from './sources/types';
 import {
     cleanPath,
     getParameterNamesFromSearchParams,
