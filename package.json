@@ -2,7 +2,7 @@
   "name": "@vidocsecurity/bb-programs-importer",
   "license": "MIT",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "bin": {
     "bb-programs-importer": "./cli.js"
   },
