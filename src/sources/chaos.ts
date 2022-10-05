@@ -8,7 +8,7 @@ import {
     nameToOrganizationID,
     parseHostnameToDomainAndSubdomain,
 } from '../common.js';
-import { IParsedProgram } from './parseProgramAndSave.js';
+import { ParsedProgram } from './../saveResults.js';
 
 interface IChaosBugBountyEntry {
     name: string;
@@ -21,7 +21,7 @@ interface IChaosBugBountyList {
     programs: IChaosBugBountyEntry[];
 }
 
-const parseProgram = (program: IChaosBugBountyEntry): IParsedProgram => {
+const parseProgram = (program: IChaosBugBountyEntry): ParsedProgram => {
     const { name, url } = program;
     let hostnames = program.domains;
     const organizationId = nameToOrganizationID(name);

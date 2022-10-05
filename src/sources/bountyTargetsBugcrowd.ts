@@ -21,7 +21,7 @@ import {
 } from '../common.js';
 import { parseEndpointOrDescriptionForMobileApplications } from '../mobileApplicationParser.js';
 import { getURLsFromText, parseURLsForScopeItems } from '../urlScopeParser.js';
-import { IParsedProgram } from './parseProgramAndSave.js';
+import { ParsedProgram } from '../saveResults.js';
 
 interface IBountyTargetsBugcrowdScopeEntry {
     target: string;
@@ -147,7 +147,7 @@ const parseOutOfScope = (
     };
 };
 
-const parseProgram = (program: IBountyTargetsBugcrowdEntry): IParsedProgram => {
+const parseProgram = (program: IBountyTargetsBugcrowdEntry): ParsedProgram => {
     const { name, url, targets } = program;
     const organizationId = nameToOrganizationID(name);
 

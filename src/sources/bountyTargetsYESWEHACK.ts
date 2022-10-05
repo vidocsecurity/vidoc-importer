@@ -20,7 +20,7 @@ import {
 } from '../common.js';
 import { parseEndpointOrDescriptionForMobileApplications } from '../mobileApplicationParser.js';
 import { getURLsFromText, parseURLsForScopeItems } from '../urlScopeParser.js';
-import { IParsedProgram } from './parseProgramAndSave.js';
+import { ParsedProgram } from './../saveResults.js';
 
 interface IBountyTargetsYESWEHACKScopeEntry {
     target: string;
@@ -128,9 +128,7 @@ const parseScope = (
     };
 };
 
-const parseProgram = (
-    program: IBountyTargetsYESWEHACKEntry,
-): IParsedProgram => {
+const parseProgram = (program: IBountyTargetsYESWEHACKEntry): ParsedProgram => {
     const { id, name, targets } = program;
     const organizationId = nameToOrganizationID(name);
 

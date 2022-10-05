@@ -18,7 +18,7 @@ import {
 } from '../common.js';
 import { parseEndpointOrDescriptionForMobileApplications } from '../mobileApplicationParser.js';
 import { getURLsFromText, parseURLsForScopeItems } from '../urlScopeParser.js';
-import { IParsedProgram } from './parseProgramAndSave.js';
+import { ParsedProgram } from './../saveResults.js';
 
 enum IBountyTargetsFederacyScopeType {
     website = 'website',
@@ -142,7 +142,7 @@ const parseOutOfScope = (
     };
 };
 
-const parseProgram = (program: IBountyTargetsFederacyEntry): IParsedProgram => {
+const parseProgram = (program: IBountyTargetsFederacyEntry): ParsedProgram => {
     const { name, url, targets } = program;
     const organizationId = nameToOrganizationID(name);
 

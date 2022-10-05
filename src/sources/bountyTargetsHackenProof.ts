@@ -21,7 +21,7 @@ import {
 } from '../common.js';
 import { parseEndpointOrDescriptionForMobileApplications } from '../mobileApplicationParser.js';
 import { getURLsFromText, parseURLsForScopeItems } from '../urlScopeParser.js';
-import { IParsedProgram } from './parseProgramAndSave.js';
+import { ParsedProgram } from './../saveResults.js';
 
 enum IBountyTargetsHackenProofScopeType {
     Web = 'Web',
@@ -239,7 +239,7 @@ const parseScope = (
 
 const parseProgram = (
     program: IBountyTargetsHackenProofEntry,
-): IParsedProgram => {
+): ParsedProgram => {
     const { name, url, targets } = program;
     const organizationId = nameToOrganizationID(name);
 

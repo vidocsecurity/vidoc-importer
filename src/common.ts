@@ -31,12 +31,7 @@ const shouldSkipSubdomain = (hostname: string) => {
 };
 
 const nameToOrganizationID = (name: string): string =>
-    name
-        .trimStart()
-        .trimEnd()
-        .replace(/ +(?= )/g, '') // remove multiple spaces and leave only one
-        .replace(/ /g, '-') // replace space with "-"
-        .toLowerCase();
+    name.replace(/[^a-zA-Z0-9_-\s]+/g, '').toLowerCase();
 
 const parseHostnameToDomainAndSubdomain = (
     organizationId: string,

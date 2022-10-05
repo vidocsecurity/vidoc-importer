@@ -22,7 +22,7 @@ import {
     getURLsFromText,
     parseURLsForScopeItems,
 } from '../../urlScopeParser.js';
-import { IParsedProgram } from '../parseProgramAndSave.js';
+import { ParsedProgram } from '../../saveResults.js';
 
 interface IHackerOneProgramScopeEntry {
     asset_identifier: string;
@@ -281,7 +281,7 @@ const parseOutOfScope = (
     };
 };
 
-const parseProgram = (program: IHackerOneProgram): IParsedProgram => {
+const parseProgram = (program: IHackerOneProgram): ParsedProgram => {
     const { name, url, targets } = program;
     const organizationId = nameToOrganizationID(name);
 

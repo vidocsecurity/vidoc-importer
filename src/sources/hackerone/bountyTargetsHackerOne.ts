@@ -14,12 +14,7 @@ const fetchBountyTargetsHackerOneProgramList = async () => {
             offers_bounties && submission_state === 'open',
     );
 
-    console.log(
-        'fetchBountyTargetsHackerOneProgramList: fetched ',
-        programsThatPay.length,
-    );
-
-    return programs.map((program) => parseProgram(program));
+    return programsThatPay.map((program) => parseProgram(program));
 };
 
 export { fetchBountyTargetsHackerOneProgramList };

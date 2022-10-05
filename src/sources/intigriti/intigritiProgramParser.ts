@@ -21,7 +21,7 @@ import {
     getURLsFromText,
     parseURLsForScopeItems,
 } from '../../urlScopeParser.js';
-import { IParsedProgram } from '../parseProgramAndSave.js';
+import { ParsedProgram } from '../../saveResults.js';
 
 interface IBountyTargetsIntigritiScopeEntry {
     endpoint: string;
@@ -159,7 +159,7 @@ const parseScope = (
     };
 };
 
-const parseProgram = (program: IIntigritiProgram): IParsedProgram => {
+const parseProgram = (program: IIntigritiProgram): ParsedProgram => {
     const { name, url, targets } = program;
     const organizationId = nameToOrganizationID(name);
 
