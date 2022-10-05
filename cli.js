@@ -2,4 +2,4 @@
 
 //module/cli.js
 
-require('./build/src/index.js');
+import './build/src/index.js';
