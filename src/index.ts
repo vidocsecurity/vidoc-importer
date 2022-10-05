@@ -13,6 +13,8 @@ import { fetchBountyTargetsBugcrowdProgramList } from './sources/bountyTargetsBu
 import { fetchBountyTargetsHackenProofProgramList } from './sources/bountyTargetsHackenProof.js';
 import { fetchBountyTargetsYESWEHACKProgramList } from './sources/bountyTargetsYESWEHACK.js';
 import { fetchBountyTargetsIntigritiProgramList } from './sources/intigriti/bountyTargetsIntigriti.js';
+import { fetchPrivateProgramsFromHackerOneProgram } from './sources/hackerone/privateProgramsHackerOne.js';
+import { fetchPrivateProgramsFromIntigritiProgram } from './sources/intigriti/privateProgramsIntigriti.js';
 
 const program = new Command();
 const config = new Configstore('@vidocsecurity/vidoc-bb-importer', {
@@ -77,11 +79,64 @@ const handleHackeronePrivateProgramsImport = async ({
     console.log('Importing private programs from Hackerone...');
     const spinner = ora('Fetching programs...').start();
 
-    console.log(sessionCookie);
+    console.log();
 
-    setTimeout(() => {
-        spinner.stop();
-    }, 5000);
+    const parsedPrograms = await fetchPrivateProgramsFromHackerOneProgram({
+        sessionCookie,
+    });
+
+    spinner.stop();
+
+    console.log(
+        `Found ${chalk.green(
+            parsedPrograms.length,
+        )} PRIVATE Hackerone programs to import`,
+    );
+
+    await saveResultsAndMakeSureTheyAreUnique(
+        getAPIConfig(),
+        config.get('project-id'),
+        parsedPrograms,
+    );
+};
+
+type IntigritiPrivateProgramsImportOptions = {
+    email: string;
+    password: string;
+};
+
+const handleIntigritiPrivateProgramsImport = async ({
+    email,
+    password,
+}: IntigritiPrivateProgramsImportOptions) => {
+    if (!config.get('token') || !config.get('user')) {
+        console.log(chalk.red('You need to login first'));
+        return;
+    }
+
+    console.log('Importing private programs from Intigriti...');
+    const spinner = ora('Fetching programs...').start();
+
+    console.log();
+
+    const parsedPrograms = await fetchPrivateProgramsFromIntigritiProgram({
+        email,
+        password,
+    });
+
+    spinner.stop();
+
+    console.log(
+        `Found ${chalk.green(
+            parsedPrograms.length,
+        )} PRIVATE Intigriti programs to import`,
+    );
+
+    await saveResultsAndMakeSureTheyAreUnique(
+        getAPIConfig(),
+        config.get('project-id'),
+        parsedPrograms,
+    );
 };
 
 interface LoginOptions {
@@ -132,7 +187,7 @@ _   _ _     _             ______                              _
     );
     console.log(
         chalk.yellow(
-            "If something did not work as expected, don't hesitate to open an issue on https://github.com/vidocsecurity/vidoc-bb-importer",
+            "If something did not work as expected, don't hesitate to open an issue on https://github.com/vidocsecurity/vidoc-importer",
         ),
     );
 
@@ -167,6 +222,12 @@ _   _ _     _             ______                              _
         .command('hackerone-private')
         .requiredOption('--session-cookie <string>', 'Hackerone session cookie')
         .action(handleHackeronePrivateProgramsImport);
+
+    importCommand
+        .command('intigriti-private')
+        .requiredOption('--email <string>', 'Intigriti account email')
+        .requiredOption('--password <string>', 'Intigriti account password')
+        .action(handleIntigritiPrivateProgramsImport);
 
     importCommand.command('all-public').action(() => handleAllPublicImport());
 

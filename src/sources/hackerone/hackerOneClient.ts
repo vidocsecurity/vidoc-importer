@@ -1,5 +1,4 @@
 import { GraphQLClient } from 'graphql-request';
-// import fetch from 'node-fetch';
 import retry from 'async-retry';
 import {
     HACKERONE_ASSETS_QUERY,
@@ -7,29 +6,9 @@ import {
     HACKERONE_PROGRAMS_QUERY_VARIABLES,
 } from './hackerOneGraphql.js';
 import { processInChunks } from '../../common.js';
+import fetch from 'node-fetch';
 
-// const fetchToken = async (sessionCookie: string): Promise<string> => {
-//     const response = await fetch(
-//         'https://hackerone.com/current_user/graphql_token.json',
-//         {
-//             headers: {
-//                 Cookie: `__Host-session=${sessionCookie};`,
-//             },
-//         },
-//     );
-
-//     if (response.status !== 200) {
-//         throw new Error(
-//             `Something went wrong while fetching Hackerone token, status code: ${
-//                 response.status
-//             }, response text: ${await response.text()}`,
-//         );
-//     }
-
-//     const { graphql_token: graphqlToken } = await response.json();
-
-//     return graphqlToken;
-// };
+const CSRF_REGEX = /(?<="csrf-token"\s+content=")([^"]+)/gi;
 
 const getAllTeams = async (sessionCookie: string) => {
     let nextCursor = '';
@@ -39,9 +18,28 @@ const getAllTeams = async (sessionCookie: string) => {
 
     const teams: any[] = [];
 
+    const response = await fetch('https://hackerone.com/directory/programs', {
+        headers: {
+            Cookie: `__Host-session=${sessionCookie};`,
+        },
+    });
+
+    if (response.status !== 200) {
+        throw new Error('Invalid session cookie');
+    }
+
+    const text = await response.text();
+
+    const csrfToken = text.match(CSRF_REGEX)?.[0];
+
+    if (!csrfToken) {
+        throw new Error('Invalid session cookie');
+    }
+
     const client = new GraphQLClient('https://hackerone.com/graphql', {
         headers: {
             Cookie: `__Host-session=${sessionCookie};`,
+            'x-csrf-token': csrfToken,
         },
     });
     const handles: string[] = [];

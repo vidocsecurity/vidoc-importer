@@ -76,8 +76,10 @@ const fetchSSOCookie = async (
     const params = new URLSearchParams();
     params.append('Input.Email', email);
     params.append('Input.Password', password);
+    params.append('Input.WebHostUrl', 'https://app.intigriti.com');
     params.append('__RequestVerificationToken', verificationToken);
     params.append('Input.RememberLogin', 'false');
+    params.append('Input.LocalLogin', 'True');
     params.append('Input.ReturnUrl', '');
     params.append('button', 'login');
 
@@ -86,7 +88,7 @@ const fetchSSOCookie = async (
         body: params.toString(),
         redirect: 'manual',
         headers: {
-            cookie: `${csrfToken}; _ga=GA1.2.1571150733.1629470962; __Secure-Intigriti.CookieConsent.5MC37=closed; __Secure-Intigriti.CookieConsent.5MC40=closed; intercom-id-pf15mvw4=1f73010c-399f-49c7-8c4d-c0703c94be65; intercom-session-pf15mvw4`,
+            cookie: `${csrfToken};`,
             'Content-Type': 'application/x-www-form-urlencoded',
         },
     });

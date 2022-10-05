@@ -81,14 +81,15 @@ const clientWithRetry = async <T>(
         );
     }
 
+    const data = await response.text();
+
     try {
-        const data = await response.json();
+        const parsedData = JSON.parse(data);
         return {
-            data: data as T,
+            data: parsedData as T,
             status: response.status,
         };
     } catch (error) {
-        const data = await response.text();
         throw new Error(
             `Server responded with status: ${response.status} and data ${data}`,
         );

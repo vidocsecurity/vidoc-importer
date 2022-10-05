@@ -51,17 +51,18 @@ const saveResultsAndMakeSureTheyAreUnique = async (
     // to do that we check if organization id or programURL is in the directory tags
     // if it is, we don't create another directory, we add all the data to it
 
-    await processInChunks(programs, 5, async (programsChunk) => {
+    await processInChunks(programs, 10, async (programsChunk) => {
         const promises = programsChunk.map(async (program) => {
             const {
                 organization: { id, name, programURL, platform },
                 domains,
             } = program;
-            let directory = directories.find((directory) => (
+            let directory = directories.find(
+                (directory) =>
                     directory.tags.includes(id) ||
                     directory.tags.includes(programURL) ||
-                    directory.tags.includes(name)
-                ));
+                    directory.tags.includes(name),
+            );
 
             if (!directory) {
                 try {
