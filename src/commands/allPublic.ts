@@ -2,7 +2,7 @@ import { fetchBountyTargetsBugcrowdProgramList } from '../sources/bountyTargetsB
 import { fetchBountyTargetsHackenProofProgramList } from '../sources/bountyTargetsHackenProof.js';
 import { fetchBountyTargetsYESWEHACKProgramList } from '../sources/bountyTargetsYESWEHACK.js';
 import { fetchBountyTargetsIntigritiProgramList } from '../sources/intigriti/bountyTargetsIntigriti.js';
-import chalk from 'chalk/index.js';
+import chalk from 'chalk';
 import {
     ParsedProgram,
     saveResultsAndMakeSureTheyAreUnique,
