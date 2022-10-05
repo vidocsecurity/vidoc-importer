@@ -1,6 +1,21 @@
+# Description
+
+This is a tool developed by https://www.vidocsecurity.com/ that is used for importing data to the Vidoc Research platform. Currently we only support importing bug bounty programs and information about them from different platforms.
+
+# How to import bug bounty programs
+
+1. Install the tool
+
+```
+npm install @vidocsecurity/vidoc-importer -g
+```
+
+2. ... TODO HERE
+
 # What it does?
 
 It fetches data bug bounty platforms, public data is fetched from [bounty targets](https://github.com/arkadiyt/bounty-targets-data/tree/master/data). Bug bounty platforms we use:
+
 - HackerOne
 - Bugcrowd
 - Intigriti
@@ -9,6 +24,7 @@ It fetches data bug bounty platforms, public data is fetched from [bounty target
 - YESWEHACK
 
 We also fetch info about private programs from:
+
 - HackerOne
 - Intigriti
 
@@ -24,25 +40,4 @@ Its fetches the data and parses it into one format. It even parse descriptions o
 - paths from urls
 - ip addresses and CIDRs
 
-# How to run it locally?
-
-It requires a couple of arguments to run:
-
-(intigriti account has to have 2fa disabled)
-```bash
-INTIGRITI_EMAIL=<email>
-```
-
-```bash
-INTIGRITI_PASSWORD=<password>
-```
-
-```bash
-HACKERONE_SESSION_COOKIE=<value of __Host-session cookie from hackerone>
-```
-Note, the **__Host-session** cookie changes every 2 week.
-
-To start emulator locally run:
-```bash
-INTIGRITI_EMAIL=email INTIGRITI_PASSWORD=pass HACKERONE_SESSION_COOKIE=cookie yarn serve
-```
+Note. Not all this data is suported on our platform, but it will be in the future. If you are interested in any of those features let us know: contact@vidocsecurity.com
