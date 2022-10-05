@@ -7,7 +7,7 @@ import {
     ISourceCodeRepository,
     ISubdomain,
     IDirectory,
-} from './sources/types';
+} from './sources/types/index.js';
 import { ClientAPIOptions } from './client/client.js';
 import { createDirectory, fetchAllDirectories } from './client/directories.js';
 import { addDomainToDirectory } from './client/domains.js';

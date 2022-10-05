@@ -6,7 +6,7 @@ import {
     ISubdomain,
     SourceCodeRepositoryType,
     IDomain
-} from './sources/types';
+} from './sources/types/index.js';
 import { parseDomain, ParseResultType } from 'parse-domain';
 import { getURLsFromText } from './urlScopeParser.js';
 

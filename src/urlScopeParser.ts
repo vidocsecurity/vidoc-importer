@@ -6,7 +6,7 @@ import {
     IParameter,
     ISubdomain,
     IDomain,
-} from './sources/types';
+} from './sources/types/index.js';
 import {
     cleanPath,
     getParameterNamesFromSearchParams,
