@@ -1,4 +1,7 @@
-import { IApplication, ApplicationType } from '@boosted-bb/backend-interfaces';
+import {
+    IApplication,
+    ApplicationType,
+} from '../../src/sources/types/index.js';
 import { cleanPath } from './common.js';
 import { getURLsFromText } from './urlScopeParser.js';
 

@@ -1,4 +1,4 @@
-import { ApplicationType, IPRangeType } from '@boosted-bb/backend-interfaces';
+import { ApplicationType, IPRangeType } from '../../src/sources/types/index.js';
 import {
     IIntigritiProgram,
     IBountyTargetsIntigritiScopeEntry,

@@ -1,4 +1,4 @@
-import { ApplicationType } from '@boosted-bb/backend-interfaces';
+import { ApplicationType } from '../../src/sources/types/index.js';
 import {
     IHackerOneProgram,
     IHackerOneProgramScopeEntry,

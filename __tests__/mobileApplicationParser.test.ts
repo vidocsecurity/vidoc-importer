@@ -1,4 +1,4 @@
-import { IApplication, ApplicationType } from '@boosted-bb/backend-interfaces';
+import { IApplication, ApplicationType } from '../src/sources/types/index.js';
 import {
     getMobileApplicationURLsFromText,
     parseEndpointOrDescriptionForMobileApplications,

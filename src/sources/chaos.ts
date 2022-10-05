@@ -1,4 +1,4 @@
-import { ISubdomain } from '@boosted-bb/backend-interfaces';
+import { ISubdomain } from '../../src/sources/types/index.js';
 import fetch from 'node-fetch';
 import {
     nameToOrganizationID,
