@@ -23,7 +23,10 @@ const handleLogin = async ({
         return;
     }
 
-    const response = await fetchProfile(apiClientOptions);
+    const response = await fetchProfile({
+        ...apiClientOptions,
+        token,
+    });
 
     if (response.user) {
         console.log(
