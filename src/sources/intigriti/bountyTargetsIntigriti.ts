@@ -8,11 +8,6 @@ const fetchBountyTargetsIntigritiProgramList = async () => {
     );
     const programs: IIntigritiProgram[] = await response.json();
 
-    console.log(
-        'fetchBountyTargetsIntigritiProgramList: fetched ',
-        programs.length,
-    );
-
     const programsThatPay = programs.filter(
         ({ min_bounty, max_bounty }) => min_bounty > 0 || max_bounty > 0,
     );

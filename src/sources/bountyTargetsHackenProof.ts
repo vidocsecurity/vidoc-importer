@@ -21,7 +21,7 @@ import {
 } from '../common.js';
 import { parseEndpointOrDescriptionForMobileApplications } from '../mobileApplicationParser.js';
 import { getURLsFromText, parseURLsForScopeItems } from '../urlScopeParser.js';
-import { ParsedProgram } from "../saveResults.js";
+import { ParsedProgram } from '../saveResults.js';
 
 enum IBountyTargetsHackenProofScopeType {
     Web = 'Web',
@@ -286,10 +286,6 @@ const fetchBountyTargetsHackenProofProgramList = async () => {
     const programs: IBountyTargetsHackenProofEntry[] = await response.json();
 
     const programsThatPay = programs.filter(({ archived }) => !archived);
-    console.log(
-        'fetchBountyTargetsHackenProofProgramList: fetched ',
-        programsThatPay.length,
-    );
 
     return programsThatPay.map((program) => parseProgram(program));
 };

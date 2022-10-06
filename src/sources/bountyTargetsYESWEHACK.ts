@@ -175,11 +175,6 @@ const fetchBountyTargetsYESWEHACKProgramList = async () => {
             disabled === false && (min_bounty > 0 || max_bounty > 0),
     );
 
-    console.log(
-        'fetchBountyTargetsYESWEHACKProgramList: fetched ',
-        programsThatPay.length,
-    );
-
     return programsThatPay.map((program) => parseProgram(program));
 };
 

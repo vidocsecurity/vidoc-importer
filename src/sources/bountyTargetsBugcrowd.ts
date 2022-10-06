@@ -195,11 +195,6 @@ const fetchBountyTargetsBugcrowdProgramList = async () => {
 
     const programsThatPay = programs.filter(({ max_payout }) => max_payout > 0);
 
-    console.log(
-        'fetchBountyTargetsBugcrowdProgramList: fetched ',
-        programsThatPay.length,
-    );
-
     return programsThatPay.map((program) => parseProgram(program));
 };
 
