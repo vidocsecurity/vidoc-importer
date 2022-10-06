@@ -20,7 +20,7 @@ const getAPIConfig = (config: Configstore): ClientAPIOptions => ({
 
 const main = async () => {
     const program = new Command();
-    const config = new Configstore('@vidocsecurity/vidoc-bb-importer', {
+    const config = new Configstore('@vidocsecurity/vidoc-importer', {
         token: '',
     });
 
