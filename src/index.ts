@@ -13,10 +13,21 @@ import {
     IntigritiPrivateProgramsImportOptions,
 } from './commands/intigritiPrivate.js';
 
-const getAPIConfig = (config: Configstore): ClientAPIOptions => ({
-    apiHost: 'https://client-dev.vidocsecurity.com',
-    token: config.get('token'),
-});
+const getAPIConfig = (config: Configstore): ClientAPIOptions => {
+    let apiHost = 'https://app.vidocsecurity.com';
+    if (process.env.ENV === 'dev') {
+        apiHost = 'https://client-dev.vidocsecurity.com';
+    }
+
+    if (process.env.ENV === 'local') {
+        apiHost = 'http://localhost:3000';
+    }
+
+    return {
+        apiHost,
+        token: config.get('token'),
+    };
+};
 
 const main = async () => {
     const program = new Command();
