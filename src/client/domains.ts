@@ -29,8 +29,8 @@ const addDomainToDirectory = async (
         throw new Error('Forbidden');
     }
 
-    if (status === 400 && !data.message.includes('already exists')) {
-        throw new Error(`Bad request: ${JSON.stringify(data)}`);
+    if (status === 400 && !data.message.includes('domain already exists')) {
+        throw new Error(data.message);
     }
 };
 
