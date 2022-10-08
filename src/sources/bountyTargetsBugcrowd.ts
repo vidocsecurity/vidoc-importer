@@ -172,7 +172,7 @@ const parseProgram = (program: IBountyTargetsBugcrowdEntry): ParsedProgram => {
         bounty: true,
         name,
         programURL: url,
-        platform: 'Bugcrowd Pubic',
+        platform: 'Bugcrowd Public',
     };
 
     return {
