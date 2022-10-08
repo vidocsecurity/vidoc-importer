@@ -13,20 +13,23 @@ const addDomainToDirectory = async (
     directoryId: string,
     params: AddDomainParameters,
 ) => {
-    const { data, status } = await clientWithRetry(clientOptions, {
-        method: 'POST',
-        path: ENDPOINT.replace(':projectId', projectId).replace(
-            ':directoryId',
-            directoryId,
-        ),
-        body: params,
-    });
+    const { data, status } = await clientWithRetry<{ message: string }>(
+        clientOptions,
+        {
+            method: 'POST',
+            path: ENDPOINT.replace(':projectId', projectId).replace(
+                ':directoryId',
+                directoryId,
+            ),
+            body: params,
+        },
+    );
 
     if (status === 403 || status === 401) {
         throw new Error('Forbidden');
     }
 
-    if (status === 400) {
+    if (status === 400 && !data.message.includes('already exists')) {
         throw new Error(`Bad request: ${JSON.stringify(data)}`);
     }
 };
