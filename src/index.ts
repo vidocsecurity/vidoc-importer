@@ -14,7 +14,7 @@ import {
     IntigritiPrivateProgramsImportOptions,
 } from './commands/intigritiPrivate.js';
 import { fetchProfile } from './client/profile.js';
-import version from 'project-version';
+import { PACKAGE_VERSION } from './version.js';
 
 const getAPIConfig = (config: Configstore): ClientAPIOptions => {
     let apiHost = 'https://app.vidocsecurity.com';
@@ -38,12 +38,10 @@ const checkVersion = async () => {
     );
     const text = await response.json();
 
-    console.log(version);
-
-    if (version !== text.latest) {
+    if (PACKAGE_VERSION !== text.latest) {
         console.log(
             chalk.yellow(
-                `You are using an outdated version of the importer. Please update it. Your version is ${version} and the latest is ${text.latest}`,
+                `You are using an outdated version of the importer. Please update it. Your version is ${PACKAGE_VERSION} and the latest is ${text.latest}`,
             ),
         );
     }

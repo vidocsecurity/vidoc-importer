@@ -14,7 +14,10 @@
     "lint": "eslint . --ext .ts,.tsx --fix",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "test-module": "node build/src/testModule.js"
+    "test-module": "node build/src/testModule.js",
+    "version": "node make_version.js > src/version.ts",
+    "prebuild": "npm run version",
+    "prestart": "npm run version"
   },
   "main": "build/src/index.js",
   "dependencies": {
@@ -35,8 +38,7 @@
     "inquirer": "^9.1.2",
     "node-fetch": "^2.6.1",
     "ora": "^6.1.2",
-    "parse-domain": "^3.0.3",
-    "project-version": "^2.0.0"
+    "parse-domain": "^3.0.3"
   },
   "devDependencies": {
     "@types/jest": "~26.0.19",
