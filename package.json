@@ -36,7 +36,6 @@
     "node-fetch": "^2.6.1",
     "ora": "^6.1.2",
     "parse-domain": "^3.0.3",
-    "pkginfo": "^0.4.1",
     "project-version": "^2.0.0"
   },
   "devDependencies": {
