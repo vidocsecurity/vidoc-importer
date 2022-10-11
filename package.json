@@ -7,7 +7,7 @@
     "vidoc-importer": "./cli.js"
   },
   "scripts": {
-    "start": "node --experimental-json-modules build/src/index.js",
+    "start": "node build/src/index.js",
     "clean": "rimraf coverage build tmp",
     "build": "tsc -p tsconfig.release.json",
     "build:watch": "tsc -w -p tsconfig.release.json",
