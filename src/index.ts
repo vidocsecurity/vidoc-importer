@@ -12,6 +12,9 @@ import {
     handleIntigritiPrivateProgramsImport,
     IntigritiPrivateProgramsImportOptions,
 } from './commands/intigritiPrivate.js';
+import jsonPackage from '../package.json';
+import fetch from 'node-fetch';
+import { fetchProfile } from './client/profile.js';
 
 const getAPIConfig = (config: Configstore): ClientAPIOptions => {
     let apiHost = 'https://app.vidocsecurity.com';
@@ -27,6 +30,23 @@ const getAPIConfig = (config: Configstore): ClientAPIOptions => {
         apiHost,
         token: config.get('token'),
     };
+};
+
+const checkVersion = async () => {
+    const response = await fetch(
+        'https://registry.npmjs.org/-/package/@vidocsecurity/vidoc-importer/dist-tags',
+    );
+    const text = await response.json();
+
+    const { version } = jsonPackage;
+
+    if (version !== text.latest) {
+        console.log(
+            chalk.yellow(
+                `You are using an outdated version of the importer. Please update it. Your version is ${version} and the latest is ${text}`,
+            ),
+        );
+    }
 };
 
 const main = async () => {
@@ -56,9 +76,26 @@ _   _ _     _             ______                              _
         ),
     );
 
+    await checkVersion();
+
     if (config.get('token') && config.get('user')) {
+        try {
+            await fetchProfile(getAPIConfig(config));
+        } catch {
+            console.log('\n\n');
+            console.log(
+                chalk.red(
+                    'Your token is invalid or it expired. Please log in again using the login command.',
+                ),
+            );
+
+            config.set('token', '');
+            return;
+        }
+
         console.log(chalk.green(`You are logged in as ${config.get('user')}`));
     }
+
     console.log('\n\n');
 
     program.version('0.0.1');

@@ -1,5 +1,4 @@
 import { fetchBountyTargetsBugcrowdProgramList } from '../sources/bountyTargetsBugcrowd.js';
-import { fetchBountyTargetsHackenProofProgramList } from '../sources/bountyTargetsHackenProof.js';
 import { fetchBountyTargetsYESWEHACKProgramList } from '../sources/bountyTargetsYESWEHACK.js';
 import { fetchBountyTargetsIntigritiProgramList } from '../sources/intigriti/bountyTargetsIntigriti.js';
 import chalk from 'chalk';
@@ -41,7 +40,6 @@ const handleAllPublicImport = async ({
 
     parsedPrograms.push(...(await fetchBountyTargetsBugcrowdProgramList()));
     parsedPrograms.push(...(await fetchBountyTargetsHackerOneProgramList()));
-    parsedPrograms.push(...(await fetchBountyTargetsHackenProofProgramList()));
     parsedPrograms.push(...(await fetchBountyTargetsYESWEHACKProgramList()));
     parsedPrograms.push(...(await fetchBountyTargetsIntigritiProgramList()));
 
