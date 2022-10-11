@@ -38,14 +38,15 @@ const checkVersion = async () => {
     );
     const text = await response.json();
 
-    const packageString = await readFile('./package.json', 'utf8');
+    const packageString = await readFile('../../package.json', 'utf8');
 
     const { version } = JSON.parse(packageString);
+    console.log(packageString);
 
     if (version !== text.latest) {
         console.log(
             chalk.yellow(
-                `You are using an outdated version of the importer. Please update it. Your version is ${version} and the latest is ${text}`,
+                `You are using an outdated version of the importer. Please update it. Your version is ${version} and the latest is ${text.latest}`,
             ),
         );
     }
