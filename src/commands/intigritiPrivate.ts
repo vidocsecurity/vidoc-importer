@@ -1,7 +1,7 @@
 import Configstore from 'configstore';
-import { ClientAPIOptions } from '../client/client.js';
 import ora from 'ora';
 import chalk from 'chalk';
+import { ClientAPIOptions } from '../client/client.js';
 import { saveResultsAndMakeSureTheyAreUnique } from '../saveResults.js';
 import { fetchPrivateProgramsFromIntigritiProgram } from '../sources/intigriti/privateProgramsIntigriti.js';
 

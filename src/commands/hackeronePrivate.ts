@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 import Configstore from 'configstore';
+import ora from 'ora';
 import { ClientAPIOptions } from '../client/client.js';
 import { saveResultsAndMakeSureTheyAreUnique } from '../saveResults.js';
 import { fetchPrivateProgramsFromHackerOneProgram } from '../sources/hackerone/privateProgramsHackerOne.js';
-import ora from 'ora';
 
 export type HackeronePrivateProgramsImportOptions = {
     sessionCookie: string;

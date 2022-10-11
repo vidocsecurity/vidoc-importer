@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import Configstore from 'configstore';
+import fetch from 'node-fetch';
 import { ClientAPIOptions } from './client/client.js';
 import { handleLogin, LoginOptions } from './commands/login.js';
 import {
@@ -13,7 +14,6 @@ import {
     IntigritiPrivateProgramsImportOptions,
 } from './commands/intigritiPrivate.js';
 import jsonPackage from '../package.json';
-import fetch from 'node-fetch';
 import { fetchProfile } from './client/profile.js';
 
 const getAPIConfig = (config: Configstore): ClientAPIOptions => {
@@ -157,8 +157,6 @@ _   _ _     _             ______                              _
     );
 
     program.parse(process.argv);
-
-    return 0;
 };
 
 main();

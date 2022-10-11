@@ -1,12 +1,12 @@
 import { GraphQLClient } from 'graphql-request';
 import retry from 'async-retry';
+import fetch from 'node-fetch';
 import {
     HACKERONE_ASSETS_QUERY,
     HACKERONE_PROGRAMS_QUERY,
     HACKERONE_PROGRAMS_QUERY_VARIABLES,
 } from './hackerOneGraphql.js';
 import { processInChunks } from '../../common.js';
-import fetch from 'node-fetch';
 
 const CSRF_REGEX = /(?<="csrf-token"\s+content=")([^"]+)/gi;
 

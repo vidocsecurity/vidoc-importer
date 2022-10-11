@@ -1,15 +1,15 @@
+import chalk from 'chalk';
+import Configstore from 'configstore';
+import ora from 'ora';
 import { fetchBountyTargetsBugcrowdProgramList } from '../sources/bountyTargetsBugcrowd.js';
 import { fetchBountyTargetsYESWEHACKProgramList } from '../sources/bountyTargetsYESWEHACK.js';
 import { fetchBountyTargetsIntigritiProgramList } from '../sources/intigriti/bountyTargetsIntigriti.js';
-import chalk from 'chalk';
 import {
     ParsedProgram,
     saveResultsAndMakeSureTheyAreUnique,
 } from '../saveResults.js';
 import { ClientAPIOptions } from '../client/client.js';
-import Configstore from 'configstore';
 import { fetchBountyTargetsHackerOneProgramList } from '../sources/hackerone/bountyTargetsHackerOne.js';
-import ora from 'ora';
 
 export type AllPublicImportOptions = {
     apiClientOptions: ClientAPIOptions;
