@@ -14,7 +14,7 @@ import {
     IntigritiPrivateProgramsImportOptions,
 } from './commands/intigritiPrivate.js';
 import { fetchProfile } from './client/profile.js';
-import { readFile } from 'fs/promises';
+import version from 'project-version';
 
 const getAPIConfig = (config: Configstore): ClientAPIOptions => {
     let apiHost = 'https://app.vidocsecurity.com';
@@ -38,10 +38,7 @@ const checkVersion = async () => {
     );
     const text = await response.json();
 
-    const packageString = await readFile('../../package.json', 'utf8');
-
-    const { version } = JSON.parse(packageString);
-    console.log(packageString);
+    console.log(version);
 
     if (version !== text.latest) {
         console.log(
