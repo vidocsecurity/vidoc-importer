@@ -10,7 +10,10 @@ This is a tool developed by https://www.vidocsecurity.com/ that is used for impo
 npm install @vidocsecurity/vidoc-importer -g
 ```
 
-2. ... TODO HERE
+2. Generate access token on the platform `API settings -> Create new token`
+3. Login with the tool using token you generated `vidoc-importer login --token TOKEN`
+4. Import private programs from h1: `vidoc-importer import hackerone-private --session-cookie (cookie __Host-session z hackerone)`
+5. You can also import ALL public programs from all of the platforms (h1, bugcrowd, intigriti, yeswehack…) using command `vidoc-importer import all-public`
 
 # What it does?
 
